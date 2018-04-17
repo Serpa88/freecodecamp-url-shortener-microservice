@@ -15,6 +15,12 @@ app.use(express.static('public'));
 
 app.get("/:id", function(request, response) {
   const id = request.params.id;
+  try {
+    const _id = new mongo.ObjectID(id);
+  }
+  catch (err) {
+    return response.json({"error":"This url is not on the database."});
+  }
   collection.findOne({ _id: new mongo.ObjectID(id) }, function (err, result) {
     if (err || !result) {
       response.json({"error":"This url is not on the database."});
